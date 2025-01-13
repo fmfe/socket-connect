@@ -109,8 +109,8 @@ export class Socket<Send extends {} = any, MessageData extends {} = any> {
     public send(data: Send): boolean {
         const { state, _socket, _sendData } = this;
         if (_socket && state === SocketState.open) {
-            if (data instanceof ArrayBuffer) {
-                _sendData.push(data);
+            if (data instanceof ArrayBuffer || data instanceof Uint8Array || data instanceof Uint16Array || data instanceof Uint32Array || data instanceof Blob) {
+                _socket.send(data);
             } else if (typeof data === 'string') {
                 _socket.send(data);
             } else {
